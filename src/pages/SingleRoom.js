@@ -3,6 +3,7 @@ import Hero from "../components/Hero";
 import Banner from "../components/Banner";
 import { Link } from "react-router-dom";
 import { RoomContext } from "../context";
+import StyledHero from "../components/StyledHero";
 
 export default class SingleRoom extends Component {
   constructor(props) {
@@ -41,6 +42,52 @@ export default class SingleRoom extends Component {
       pets,
       images
     } = room;
-    return <div>Hello from single room{room.name}</div>;
+
+    return (
+      <>
+        <StyledHero img={images[0]}>
+          <Banner
+            title="Luxurios rooms"
+            subtitle="deluxe rooms starting at $299"
+          >
+            <Link to="/rooms" className="btn-primary">
+              Button
+            </Link>
+          </Banner>
+        </StyledHero>
+        <section className="single-room">
+          <div className="single-room-images">
+            {images.map((item, index) => {
+              return <img key={index} src={item} alt={name}></img>;
+            })}
+          </div>
+          <div className="single-room-info">
+            <article className="desc">
+              <h3>Details</h3>
+              <p>{description}</p>
+            </article>
+            <article className="info">
+              <h3>Info</h3>
+              <h6>Size: {size}</h6>
+              <h6>Price: {price} SQFT</h6>
+              <h6>
+                Max capacity:
+                {capacity > 1 ? `${capacity} people` : `${capacity} person`}
+              </h6>
+              <h6>{pets ? "Pets allowed" : "Pets not allowed"}</h6>
+              <h6>{breakfast && "free breakfact included"}</h6>
+            </article>
+          </div>
+        </section>
+        <section className="room-extras">
+          <h6>Extras</h6>
+          <ul className="extras">
+            {extras.map((item, index) => {
+              return <li key={index}>- {item}</li>;
+            })}
+          </ul>
+        </section>
+      </>
+    );
   }
 }
