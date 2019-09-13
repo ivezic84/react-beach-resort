@@ -46,14 +46,7 @@ export default class SingleRoom extends Component {
     return (
       <>
         <StyledHero img={images[0]}>
-          <Banner
-            title="Luxurios rooms"
-            subtitle="deluxe rooms starting at $299"
-          >
-            <Link to="/rooms" className="btn-primary">
-              Button
-            </Link>
-          </Banner>
+          <Banner title={name}></Banner>
         </StyledHero>
         <section className="single-room">
           <div className="single-room-images">
