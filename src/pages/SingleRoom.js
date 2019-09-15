@@ -44,7 +44,7 @@ export default class SingleRoom extends Component {
     } = room;
 
     return (
-      <>
+      <div>
         <StyledHero img={images[0]}>
           <Banner title={name}></Banner>
         </StyledHero>
@@ -80,7 +80,7 @@ export default class SingleRoom extends Component {
             })}
           </ul>
         </section>
-      </>
+      </div>
     );
   }
 }

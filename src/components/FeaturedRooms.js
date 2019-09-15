@@ -5,6 +5,7 @@ import Title from "./Title";
 import Room from "./Room";
 
 export default class FeaturedRooms extends Component {
+  // Na ovaj nacin pristupamo context-u kada radimo sa klasom
   static contextType = RoomContext;
 
   render() {
