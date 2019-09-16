@@ -30,8 +30,8 @@ class RoomProvider extends Component {
   componentDidMount() {
     let rooms = this.formatData(items);
     let featuredRooms = rooms.filter(room => room.featured === true);
-    let maxPrice = Math.max(rooms.map(room => room.price));
-    let maxSize = Math.max(rooms.map(room => room.price));
+    let maxPrice = Math.max(...rooms.map(item => item.price));
+    let maxSize = Math.max(...rooms.map(item => item.price));
 
     this.setState({
       rooms: rooms,
@@ -78,19 +78,23 @@ class RoomProvider extends Component {
   };
 
   filterRooms = () => {
-    let { rooms, type, capacity, sortedRooms } = this.state;
+    let { rooms, type, capacity, price } = this.state;
     let tempRooms = [...rooms];
+
+    capacity = parseInt(capacity);
+    price = parseInt(price);
 
     if (type !== "all") {
       tempRooms = tempRooms.filter(room => room.type == type);
     }
 
-    capacity = parseInt(capacity);
-
     if (capacity !== 1) {
       tempRooms = tempRooms.filter(room => room.capacity >= capacity);
     }
 
+    tempRooms = tempRooms.filter(room => room.price <= price);
+
+    // Change state
     this.setState({
       sortedRooms: tempRooms
     });

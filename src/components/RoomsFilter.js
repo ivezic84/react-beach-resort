@@ -6,6 +6,8 @@ import { RoomContext } from "../context";
 export default function RoomsFilter({ rooms }) {
   const context = useContext(RoomContext);
 
+  console.log(context);
+
   const {
     name,
     type,
@@ -92,15 +94,17 @@ export default function RoomsFilter({ rooms }) {
 
         {/* Filter price */}
         <div className="form-group">
-          <label htmlFor="price">Price</label>
-          <select
+          <label htmlFor="price">Room price ${price}</label>
+          <input
+            type="range"
             name="price"
+            min={minPrice}
+            max={maxPrice}
+            id="price"
             value={price}
             className="form-control"
             onChange={handleChange}
-          >
-            {price}
-          </select>
+          />
         </div>
         {/* End filter price */}
       </form>
