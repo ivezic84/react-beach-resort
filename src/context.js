@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import items from "./data";
+//import items from "./data";
 //Kreiramo NADKLASU koja ce biti iznad svih ostalih komponenti
 //Slizu nam da zaobidjemo sve ostale komponente i dodjemo do podataka
 
@@ -7,6 +7,10 @@ import items from "./data";
 // Nakon sto smo ga pozvali imamo pristup dvije komponente
 // Prva je Provider, i sluzi nam da pristupamo svim komponentama koje imamo u Context API
 // Druga je Consumer, i sluzi da pristupamo podacima koje dobijamo od Provider-a
+
+// Importujemo contentful
+import Client from "./contentful";
+
 const RoomContext = React.createContext();
 
 class RoomProvider extends Component {
@@ -27,21 +31,33 @@ class RoomProvider extends Component {
     pets: false
   };
 
-  componentDidMount() {
-    let rooms = this.formatData(items);
-    let featuredRooms = rooms.filter(room => room.featured === true);
-    let maxPrice = Math.max(...rooms.map(item => item.price));
-    let maxSize = Math.max(...rooms.map(item => item.price));
+  getData = async () => {
+    try {
+      let response = await Client.getEntries({
+        content_type: "beachResort",
+        order: "sys.createdAt"
+      });
+      let rooms = this.formatData(response.items);
+      let featuredRooms = rooms.filter(room => room.featured === true);
+      let maxPrice = Math.max(...rooms.map(item => item.price));
+      let maxSize = Math.max(...rooms.map(item => item.price));
 
-    this.setState({
-      rooms: rooms,
-      featuredRooms: featuredRooms,
-      sortedRooms: rooms,
-      loading: false,
-      price: maxPrice,
-      maxPrice: maxPrice,
-      maxSize: maxSize
-    });
+      this.setState({
+        rooms: rooms,
+        featuredRooms: featuredRooms,
+        sortedRooms: rooms,
+        loading: false,
+        price: maxPrice,
+        maxPrice: maxPrice,
+        maxSize: maxSize
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  componentDidMount() {
+    this.getData();
   }
 
   formatData(items) {
@@ -51,8 +67,7 @@ class RoomProvider extends Component {
 
       // Uzimamo citav objekat "fields" i ubacujmo nove vrijednosti ili updateujemo ako vec imaju neke
       // Ubacujemo images i id odnosno dvije varijable koje smo vec izvukli
-      let room = { ...item.fields, images: images, id: id };
-
+      let room = { ...item.fields, images, id };
       return room;
     });
     return tempItems;
@@ -67,7 +82,7 @@ class RoomProvider extends Component {
   handleChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    const price = event.target.price;
+    //const price = event.target.price;
     const name = event.target.name;
     this.setState(
       {
@@ -95,7 +110,7 @@ class RoomProvider extends Component {
 
     // Filter by type
     if (type !== "all") {
-      tempRooms = tempRooms.filter(room => room.type == type);
+      tempRooms = tempRooms.filter(room => room.type === type);
     }
 
     // Filter by capacity

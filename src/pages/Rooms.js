@@ -2,7 +2,6 @@ import React from "react";
 import Hero from "../components/Hero";
 import Banner from "../components/Banner";
 import RoomContainer from "../components/RoomContainer";
-import Title from "../components/Title";
 import { Link } from "react-router-dom";
 
 const Rooms = () => {

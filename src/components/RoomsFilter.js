@@ -6,13 +6,9 @@ import { RoomContext } from "../context";
 export default function RoomsFilter({ rooms }) {
   const context = useContext(RoomContext);
 
-  console.log(context);
-
   const {
-    name,
     type,
     capacity,
-    size,
     minSize,
     maxSize,
     price,
